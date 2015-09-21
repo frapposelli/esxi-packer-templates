@@ -1,0 +1,67 @@
+{
+  "variables": {
+    "iso_file": "",
+    "iso_sha1sum": "",
+    "root_password": "vagrant"
+  },
+  "builders": [
+    {
+      "name": "vmware-esxi",
+      "vm_name": "vmware-esxi",
+      "vmdk_name": "vmware-esxi-disk0",
+      "type": "vmware-iso",
+      "headless": false,
+      "disk_size": 4096,
+      "disk_type_id": 0,
+      "guest_os_type": "vmkernel5",
+      "iso_url": "{{user `iso_file`}}",
+      "iso_checksum": "{{user `iso_sha1sum`}}",
+      "iso_checksum_type": "sha1",
+      "ssh_username": "root",
+      "ssh_password": "{{user `root_password`}}",
+      "ssh_wait_timeout": "60m",
+      "shutdown_command": "esxcli system maintenanceMode set -e true -t 0 ; esxcli system shutdown poweroff -d 10 -r 'Packer Shutdown' ; esxcli system maintenanceMode set -e false -t 0",
+      "http_directory": "scripts",
+      "boot_wait": "5s",
+      "version": 11,
+      "vmx_data": {
+        "memsize": "4096",
+        "numvcpus": "2",
+        "ethernet0.virtualDev": "vmxnet3",
+        "vhv.enable": "TRUE"
+      },
+      "boot_command": [
+        "<enter><wait>O<wait> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/esxi-kickstart.cfg<enter>"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts/vagrant.pub",
+      "destination": "/etc/ssh/keys-root/authorized_keys"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/esxi-vmware-tools_install.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/esxi-vnic-fix.sh",
+      "destination": "/etc/rc.local.d/local.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/esxi-cloning_configuration.sh"
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": 9,
+        "vagrantfile_template": "scripts/esxi-vagrantfile_template.rb"
+      }
+    ]
+  ]
+}

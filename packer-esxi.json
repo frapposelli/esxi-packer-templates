@@ -43,7 +43,15 @@
     },
     {
       "type": "shell",
+      "script": "scripts/esxi-settings.sh"
+    },
+    {
+      "type": "shell",
       "script": "scripts/esxi-vmware-tools_install.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/esxi-esxui_install.sh"
     },
     {
       "type": "file",

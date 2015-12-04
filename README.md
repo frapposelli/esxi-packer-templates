@@ -26,6 +26,12 @@ The Packer template and the scripts have been tested with ESXi version 5.5 and 6
 
 Default `root` password for the resulting Vagrant box is `vagrant`.
 
+There is a convenience script provided to build a known version of the vagrant box.
+
+```shell
+./build-6.0.0.update01.sh
+```
+
 ## Legal
 
 Copyright © 2015 VMware, Inc.  All Rights Reserved.

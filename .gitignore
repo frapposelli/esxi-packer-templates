@@ -1,3 +1,5 @@
 *.tar.gz
 *.box
 packer_cache
+iso
+output-vmware-esxi

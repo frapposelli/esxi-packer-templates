@@ -6,7 +6,7 @@
 * [Packer](http://packer.io) > 0.8
 * VMware Fusion or Workstation
 
-## Build Photon artifacts
+## Build artifacts
 
 This packer template requires to variables to be set either via command line or separate JSON file:
 

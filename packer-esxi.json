@@ -3,7 +3,7 @@
     "iso_file": null,
     "iso_checksum": "",
     "iso_checksum_type": "none",
-    "disk_size": "4096",
+    "disk_size": "40960",
     "root_password": "vagrant"
   },
   "builders": [

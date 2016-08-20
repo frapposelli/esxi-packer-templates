@@ -1,7 +1,9 @@
 {
   "variables": {
-    "iso_file": "",
-    "iso_sha1sum": "",
+    "iso_file": null,
+    "iso_checksum": "",
+    "iso_checksum_type": "none",
+    "disk_size": "4096",
     "root_password": "vagrant"
   },
   "builders": [
@@ -11,12 +13,12 @@
       "vmdk_name": "vmware-esxi-disk0",
       "type": "vmware-iso",
       "headless": false,
-      "disk_size": 4096,
+      "disk_size": "{{ user `disk_size` }}",
       "disk_type_id": 0,
       "guest_os_type": "vmkernel5",
       "iso_url": "{{user `iso_file`}}",
       "iso_checksum": "{{user `iso_sha1sum`}}",
-      "iso_checksum_type": "sha1",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "ssh_username": "root",
       "ssh_password": "{{user `root_password`}}",
       "ssh_wait_timeout": "60m",
@@ -43,15 +45,11 @@
     },
     {
       "type": "shell",
-      "script": "scripts/esxi-settings.sh"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/esxi-vmware-tools_install.sh"
-    },
-    {
-      "type": "shell",
-      "script": "scripts/esxi-esxui_install.sh"
+      "scripts": [
+        "scripts/esxi-settings.sh",
+        "scripts/esxi-vmware-tools_install.sh",
+        "scripts/esxi-esxui_install.sh"
+      ]
     },
     {
       "type": "file",

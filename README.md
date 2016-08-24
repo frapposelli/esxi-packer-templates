@@ -11,14 +11,12 @@
 This packer template requires to variables to be set either via command line or separate JSON file:
 
 1. `iso_file` - is the ESXi ISO for the build (can be local or remote).
-1. `iso_sha1sum` - is the SHA1 sum of the ISO you want to build.
 
 To kick off a full build:
 
 ```shell
 packer build \
        -var 'iso_file=iso/VMware-VMvisor-Installer-6.0.0-2494585.x86_64.iso' \
-       -var 'iso_sha1sum=a38a9d37ea529329338de049679c1dd1687d3860' \
        packer-esxi.json
 ```
 

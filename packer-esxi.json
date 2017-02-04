@@ -17,7 +17,7 @@
       "disk_type_id": 0,
       "guest_os_type": "vmkernel5",
       "iso_url": "{{user `iso_file`}}",
-      "iso_checksum": "{{user `iso_sha1sum`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "ssh_username": "root",
       "ssh_password": "{{user `root_password`}}",

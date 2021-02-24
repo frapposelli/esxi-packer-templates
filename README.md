@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-* [Packer](http://packer.io) > 0.8
+* [Packer](http://packer.io) > 1.5
 * VMware Fusion or Workstation
 
 ## Build artifacts
@@ -11,24 +11,20 @@
 This packer template requires to variables to be set either via command line or separate JSON file:
 
 1. `iso_file` - is the ESXi ISO for the build (can be local or remote).
+1. `iso_checksum` - is the ESXi ISO checksum you can find on MyVMware when downloading the image, prefixed with the type (such as `md5:`).
 
 To kick off a full build:
 
 ```shell
 packer build \
-       -var 'iso_file=iso/VMware-VMvisor-Installer-6.0.0-2494585.x86_64.iso' \
+       -var 'iso_file=iso/VMware-VMvisor-Installer-7.0U1c-17325551.x86_64.iso' \
+       -var 'iso_checksum=md5:4829a336445741bf13f10bcb79723d40' \
        packer-esxi.json
 ```
 
-The Packer template and the scripts have been tested with ESXi version 5.5 and 6.0.
+The Packer template and the scripts have been tested with ESXi version 5.5, 6.x and 7.0.1.
 
-Default `root` password for the resulting Vagrant box is `vagrant`.
-
-There is a convenience script provided to build a known version of the vagrant box.
-
-```shell
-./build-6.0.0.update01.sh
-```
+Default `root` password for the resulting Vagrant box is `Vagrant!23`.
 
 ## Legal
 

@@ -1,4 +1,6 @@
-Vagrant.require_version '>= 1.6.2'
+# The contents below (if any) are custom contents provided by the
+# Packer template during image build.
+Vagrant.require_version '>= 2.0.0'
 
 Vagrant.configure('2') do |config|
   # We're using the root user here.
@@ -16,15 +18,15 @@ Vagrant.configure('2') do |config|
   # We don't have NFS working inside ESXi so we flag this just in case.
   config.nfs.functional = false
 
-  %w('vmware_fusion', 'vmware_workstation', 'vmware_appcatalyst').each do |p|
-    config.vm.provider p do |v|
-      v.vmx['memsize'] = '4096'
-      v.vmx['numvcpus'] = '2'
-      # Use paravirtualized virtual hardware on VMW hypervisors.
-      v.vmx['ethernet0.virtualDev'] = 'vmxnet3'
-      # Enable nested virtualization.
-      v.vmx['vhv.enable'] = 'true'
-    end
+  config.vm.provider "vmware_desktop" do |v|
+    v.vmx['memsize'] = '4096'
+    v.vmx['numvcpus'] = '2'
+    # Use paravirtualized virtual hardware on VMW hypervisors.
+    v.vmx["ethernet0.virtualDev"] = "vmxnet3"
+    # use paravirtualized scsi hardware on VMW hypervisors.
+    v.vmx['scsi0.virtualdev'] = 'pvscsi'
+    # Enable nested virtualization.
+    v.vmx['vhv.enable'] = 'true'
   end
 
   config.vm.provider :vcenter do |vcenter|
@@ -33,3 +35,4 @@ Vagrant.configure('2') do |config|
     vcenter.enable_vm_customization = false
   end
 end
+

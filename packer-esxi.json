@@ -2,23 +2,25 @@
   "variables": {
     "iso_file": null,
     "iso_checksum": "",
-    "iso_checksum_type": "none",
     "disk_size": "40960",
-    "root_password": "vagrant"
+    "root_password": "Vagrant!23"
   },
   "builders": [
     {
       "name": "vmware-esxi",
       "vm_name": "vmware-esxi",
+      "cpus": 2,
+      "memory": 4096,
       "vmdk_name": "vmware-esxi-disk0",
       "type": "vmware-iso",
       "headless": false,
       "disk_size": "{{ user `disk_size` }}",
       "disk_type_id": 0,
+      "disk_adapter_type": "scsi",
       "guest_os_type": "vmkernel6",
       "iso_url": "{{user `iso_file`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "network_adapter_type": "vmxnet3",
       "ssh_username": "root",
       "ssh_password": "{{user `root_password`}}",
       "ssh_wait_timeout": "60m",
@@ -27,9 +29,7 @@
       "boot_wait": "5s",
       "version": 11,
       "vmx_data": {
-        "memsize": "4096",
-        "numvcpus": "2",
-        "ethernet0.virtualDev": "vmxnet3",
+        "scsi0.virtualdev": "pvscsi",
         "vhv.enable": "TRUE"
       },
       "boot_command": [

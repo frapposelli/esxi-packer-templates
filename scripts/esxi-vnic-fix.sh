@@ -7,6 +7,11 @@
 
 os_ver=$(uname -r | sed -rn 's/.*([0-9])\.[0-9].*\.[0-9].*/\1/p')
 
+# This issue was fixed in vSphere 7
+if [ "$os_ver" -gt 6 ] ; then
+  exit 0
+fi
+
 if [ "$os_ver" -lt 6 ] ; then
   vnic0_mac=$(esxcli --formatter csv network nic list | grep vmnic0 | awk -F, '{print $5}')
   vmk0_mac=$(esxcli --formatter csv network ip interface list | grep vmk0 | awk -F, '{print $2}')
